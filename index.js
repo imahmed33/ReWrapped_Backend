@@ -143,6 +143,10 @@ app.get('/login', function (req, res) {
             redirect_uri: 'http://localhost:3000/callback',
             state: expectedState
         }));
+        // Retrieve display name from the session
+    
+
+   
 });
 
 async function getProfile(accessToken) {
@@ -221,6 +225,7 @@ app.get('/callback', function (req, res) {
                                 // Store user ID in your database
                                 const userId = Profilebody.display_name;
                                 // Store userId in your database or perform other actions
+                                req.session.userId = userId;
                                 console.log('User ID:', userId);
 
                                 // Fetch recently played tracks
@@ -334,6 +339,10 @@ app.get('/callback', function (req, res) {
                                                         }
                                                     });
                                                 });
+                                                const displayName = req.session.userId;
+
+                                                // Send a JSON response with the display name
+                                                res.json({ displayName: displayName });
 
 
                                             }
